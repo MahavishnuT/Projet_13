@@ -1,0 +1,30 @@
+@import "../../utils/style/variables.scss";
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+  .banner-logo {
+    img {
+      width: 200px;
+      max-width: 100%;
+    }
+  }
+  .banner-signin {
+    text-decoration: none;
+    margin-right: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    color: $secondary-color;
+    &:hover {
+      text-decoration: underline;
+    }
+    h3 {
+      margin: 0;
+    }
+  }
+}
