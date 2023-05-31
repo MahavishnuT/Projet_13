@@ -8,7 +8,6 @@ export const buttonEditSlice = createSlice({
   reducers: {
     openEdit: (state) => {
       state.isOpen = !state.isOpen 
-      console.log("state", state)
     }
   }
 })

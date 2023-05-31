@@ -1,24 +1,29 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Account from '../../components/Account'
 import './user.scss'
-import { openEdit } from '../../redux/redux'
+import { openEdit,  changeFirstName, changeLastName } from '../../redux/redux'
 
 function UserPage() {
   const selectorUser = useSelector((state) => state.user)
   const selectorButton = useSelector((state) => state.button)
   const dispatch = useDispatch()
 
-  const firstNameInput = document.querySelector("#firstname").value
-  const lastNameInput = document.querySelector("#lastname").value
-
   const openEditNames = () => {
     dispatch(openEdit())
   }
 
-  const clearInputs = () => {
-    firstNameInput = ""
-    lastNameInput = ""
+  const changeNames = (event) => {
+    event.preventDefault()
+
+    const firstNameInput = document.querySelector('#firstname')
+    const lastNameInput = document.querySelector('#lastname')
+
+    dispatch(changeFirstName(firstNameInput.value))
+    dispatch(changeLastName(lastNameInput.value))
+
+    openEditNames()
   }
+
 
   return (
     <div className="bg-dark">
@@ -33,22 +38,22 @@ function UserPage() {
             Edit Name
           </button>
         ) : (
-          <form action="">
+          <form onSubmit={changeNames}>
             <div className="inputs-container">
               <div className="input-wrapper">
                 <label htmlFor="firstname"></label>
-                <input type="text" id="firstname" placeholder='Firstname'/>
+                <input type="text" id="firstname" placeholder="Firstname" />
               </div>
               <div className="input-wrapper">
                 <label htmlFor="lastname"></label>
-                <input type="text" id="lastname" placeholder='Lastname'/>
+                <input type="text" id="lastname" placeholder="Lastname" />
               </div>
             </div>
             <div className="buttons-wrapper">
-              <button className="save-button" type="submit">
+              <button className="save-button" type='submit' >
                 Save
               </button>
-              <button className="cancel-button" >
+              <button className="cancel-button" onClick={() => openEditNames()}>
                 Cancel
               </button>
             </div>

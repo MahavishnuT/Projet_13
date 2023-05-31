@@ -29,7 +29,6 @@ function SignInForm() {
   const userPostLogin = async () => {
     const userName = document.querySelector('#username').value
     const password = document.querySelector('#password').value
-    console.log('user login')
     try {
       const response = await fetch(URL_LOGIN, {
         method: 'POST',
@@ -43,14 +42,12 @@ function SignInForm() {
       })
       const data = await response.json()
       if (response.ok) {
-        console.log(data)
 
        return data.body.token
       }
     } catch (error) {
       dispatch(errorLogin())
 
-      console.log(error, selector)
     }
   }
   // userPostLogin()
@@ -58,7 +55,6 @@ function SignInForm() {
   const retrieveProfile = async () => {
     try {
       const token = await userPostLogin()
-      console.log(token)
       const response = await fetch(URL_PROFILE, {
         method: 'POST',
         headers: {
@@ -67,12 +63,11 @@ function SignInForm() {
       })
       const data = await response.json()
 
-      console.log('=== data profile ===', data)
       dispatch(changeFirstName(data.body.firstName))
       dispatch(changeLastName(data.body.lastName))
       dispatch(userLogin(token))
       navigate('/user')
-      console.log('=== state ===', selector)
+      console.log(selector)
     } catch (error) {
       // enter your logic for when there is an error (ex. error toast)
 
