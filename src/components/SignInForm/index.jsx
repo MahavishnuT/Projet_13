@@ -22,58 +22,62 @@ function SignInForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const userName = document.querySelector('#username').value
-    const password = document.querySelector('#password').value
-    console.log(userName, password, localStorage)
-
-    const userPostLogin = async () => {
-      try {
-        const response = await fetch(URL_LOGIN, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: userName,
-            password: password,
-          }),
-        })
-        const data = await response.json()
-        if (response.ok) {
-          dispatch(userLogin(data.body.token))
-        }
-      } catch (error) {
-        dispatch(errorLogin())
-
-        console.log(error, selector)
-      }
-    }
-    // userPostLogin()
-
-    const retrieveProfile = async () => {
-      try {
-        await userPostLogin()
-        const response = await fetch(URL_PROFILE, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${selector.token}`,
-          },
-        })
-        const data = await response.json()
-
-        dispatch(changeFirstName(data.body.firstName))
-        dispatch(changeLastName(data.body.lastName))
-        console.log('=== data profile ===', data)
-        console.log('=== state ===', selector)
-        navigate('/user')
-      } catch (error) {
-        // enter your logic for when there is an error (ex. error toast)
-
-        console.log('could not retrieve data', error)
-      }
-    }
 
     retrieveProfile()
+  }
+
+  const userPostLogin = async () => {
+    const userName = document.querySelector('#username').value
+    const password = document.querySelector('#password').value
+    console.log('user login')
+    try {
+      const response = await fetch(URL_LOGIN, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userName,
+          password: password,
+        }),
+      })
+      const data = await response.json()
+      if (response.ok) {
+        console.log(data)
+
+       return data.body.token
+      }
+    } catch (error) {
+      dispatch(errorLogin())
+
+      console.log(error, selector)
+    }
+  }
+  // userPostLogin()
+
+  const retrieveProfile = async () => {
+    try {
+      const token = await userPostLogin()
+      console.log(token)
+      const response = await fetch(URL_PROFILE, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const data = await response.json()
+
+      console.log('=== data profile ===', data)
+      dispatch(changeFirstName(data.body.firstName))
+      dispatch(changeLastName(data.body.lastName))
+      dispatch(userLogin(token))
+      navigate('/user')
+      console.log('=== state ===', selector)
+    } catch (error) {
+      // enter your logic for when there is an error (ex. error toast)
+
+      console.log('could not retrieve data', error)
+    }
   }
 
   return (

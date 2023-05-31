@@ -1,5 +1,18 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
+export const buttonEditSlice = createSlice({
+  name: 'button',
+  initialState: {
+    isOpen: false
+  },
+  reducers: {
+    openEdit: (state) => {
+      state.isOpen = !state.isOpen 
+      console.log("state", state)
+    }
+  }
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -33,9 +46,11 @@ export const userSlice = createSlice({
 })
 
 export const {userLogin, userLogout, changeFirstName, changeLastName, errorLogin} = userSlice.actions
+export const {openEdit} = buttonEditSlice.actions
 
 export const store = configureStore({
   reducer: {
     user: userSlice.reducer,
+    button: buttonEditSlice.reducer
   }
 })
