@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import './signinform.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { URL_LOGIN, URL_PROFILE } from '../../services/UserData'
+import { URL_LOGIN, URL_PROFILE } from '../../services/ApiRoutes'
 import {
   changeFirstName,
   userLogin,
@@ -42,12 +42,10 @@ function SignInForm() {
       })
       const data = await response.json()
       if (response.ok) {
-
-       return data.body.token
+        return data.body.token
       }
     } catch (error) {
       dispatch(errorLogin())
-
     }
   }
   // userPostLogin()

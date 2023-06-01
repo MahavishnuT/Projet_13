@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Account from '../../components/Account'
 import './user.scss'
-import { openEdit,  changeFirstName, changeLastName } from '../../redux/redux'
+import { openEdit, changeFirstName, changeLastName } from '../../redux/redux'
+import { URL_PROFILE } from '../../services/ApiRoutes'
 
 function UserPage() {
   const selectorUser = useSelector((state) => state.user)
@@ -22,8 +23,31 @@ function UserPage() {
     dispatch(changeLastName(lastNameInput.value))
 
     openEditNames()
+    updateProfile(firstNameInput.value, lastNameInput.value)
+    console.log('selectorUser in changeNames', selectorUser)
   }
 
+  async function updateProfile(firstName, lastName) {
+    try {
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${selectorUser.token}`,
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+        }),
+      }
+      const response = await fetch(URL_PROFILE, requestOptions)
+      const data = await response.json()
+      console.log(data)
+      console.log('selectorUser in PUT', selectorUser)
+    } catch (error) {
+      console.log('error PUT', error)
+    }
+  }
 
   return (
     <div className="bg-dark">
@@ -50,7 +74,7 @@ function UserPage() {
               </div>
             </div>
             <div className="buttons-wrapper">
-              <button className="save-button" type='submit' >
+              <button className="save-button" type="submit">
                 Save
               </button>
               <button className="cancel-button" onClick={() => openEditNames()}>

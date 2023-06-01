@@ -40,11 +40,19 @@ export const userSlice = createSlice({
     },
     errorLogin: (state) => {
       state.error = true
+    },
+    clearState: (state) => {
+      state.firstName = ""
+      state.lastName = ""
+      state.email = ""
+      state.password = ""
+      state.token = ""
+      state.isLogged = false
     }
   },
 })
 
-export const {userLogin, userLogout, changeFirstName, changeLastName, errorLogin} = userSlice.actions
+export const {userLogin, userLogout, changeFirstName, changeLastName, errorLogin, clearState} = userSlice.actions
 export const {openEdit} = buttonEditSlice.actions
 
 export const store = configureStore({
