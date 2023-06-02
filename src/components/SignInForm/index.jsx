@@ -48,7 +48,6 @@ function SignInForm() {
       dispatch(errorLogin())
     }
   }
-  // userPostLogin()
 
   const retrieveProfile = async () => {
     try {
@@ -67,8 +66,6 @@ function SignInForm() {
       navigate('/user')
       console.log(selector)
     } catch (error) {
-      // enter your logic for when there is an error (ex. error toast)
-
       console.log('could not retrieve data', error)
     }
   }
